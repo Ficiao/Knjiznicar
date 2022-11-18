@@ -1,0 +1,3 @@
+[submodule "KnjiznicarLoginServer/KnjiznicarDataModel"]
+	path = KnjiznicarLoginServer/KnjiznicarDataModel
+	url = https://github.com/Ficiao/KnjiznicarDataModel.git
