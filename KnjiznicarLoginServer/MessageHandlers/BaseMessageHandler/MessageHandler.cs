@@ -1,4 +1,4 @@
-﻿using KnjiznicarLoginServer.Enum;
+﻿using KnjiznicarDataModel.Enum;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

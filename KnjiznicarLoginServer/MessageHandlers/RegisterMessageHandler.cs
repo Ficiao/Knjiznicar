@@ -1,9 +1,10 @@
 ﻿using KnjiznicarLoginServer.DB;
-using KnjiznicarLoginServer.Message;
+using KnjiznicarDataModel.Message;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using KnjiznicarDataModel;
 
 namespace KnjiznicarLoginServer.MessageHandlers
 {
@@ -34,14 +35,27 @@ namespace KnjiznicarLoginServer.MessageHandlers
                 };
                 FirebaseDB.SendDataToDB(playerData);
                 Console.WriteLine($"Register successful for user {playerCredentials.username}.");
-                LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage(true, false, new List<string> { "127.0.0.1" }, playerData);
+                LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
+                {
+                    loginSuccessful = true,
+                    isLogin = false,
+                    playerData = playerData,
+                    overworldIp = Constants.overworldIp,
+                    overworldPort = Constants.overworldPort,
+                    instanceIp = Constants.instanceIp,
+                    instancePort = Constants.instancePort
+                };
                 Server.Clients[clientId].Username = message.username;
                 ServerSend.SendTCPData(clientId, loginSuccessful);
             }
             else
             {
                 Console.WriteLine($"User {playerCredentials.username} already exists.");
-                LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage(false, false);
+                LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
+                {
+                    loginSuccessful = false,
+                    isLogin = false
+                };
                 ServerSend.SendTCPData(clientId, loginSuccessful);
             }
         }

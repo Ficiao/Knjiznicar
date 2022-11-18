@@ -1,4 +1,4 @@
-﻿using KnjiznicarLoginServer.Message;
+﻿using KnjiznicarDataModel.Message;
 using System;
 using System.Collections.Generic;
 using System.Net;

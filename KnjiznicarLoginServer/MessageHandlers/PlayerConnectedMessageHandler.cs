@@ -1,4 +1,4 @@
-﻿using KnjiznicarLoginServer.Message;
+﻿using KnjiznicarDataModel.Message;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,7 +13,16 @@ namespace KnjiznicarLoginServer.MessageHandlers
             PlayerConnectedMessage playerConnectedMessage = JsonConvert.DeserializeObject<PlayerConnectedMessage>(dataJsonObject.ToString());
             if (!Server.Clients[playerConnectedMessage.playerData.playerId].Username.Equals(playerConnectedMessage.playerData.username)) return;
 
-            LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage(true, true, new List<string> { "127.0.0.1" }, playerConnectedMessage.playerData);
+            LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
+            {
+                loginSuccessful = true,
+                isLogin = true,
+                playerData = playerConnectedMessage.playerData,
+                overworldIp = Constants.overworldIp,
+                overworldPort = Constants.overworldPort,
+                instanceIp = Constants.instanceIp,
+                instancePort = Constants.instancePort
+            };
             Console.WriteLine($"Login successful for user {playerConnectedMessage.playerData.username} as id {playerConnectedMessage.playerData.playerId}.");
             ServerSend.SendTCPData(playerConnectedMessage.playerData.playerId, loginSuccessful);
         }

@@ -1,4 +1,4 @@
-﻿using KnjiznicarLoginServer.Message;
+﻿using KnjiznicarDataModel.Message;
 using KnjiznicarLoginServer.MessageHandlers;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;

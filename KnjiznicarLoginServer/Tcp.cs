@@ -1,4 +1,4 @@
-﻿using KnjiznicarLoginServer.Message;
+﻿using KnjiznicarDataModel.Message;
 using KnjiznicarLoginServer.MessageHandlers;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
@@ -35,7 +35,10 @@ namespace KnjiznicarLoginServer
             _recieveBuffer = new byte[DataBufferSize];
 
             _stream.BeginRead(_recieveBuffer, 0, DataBufferSize, RecieveDataCallback, null);
-            ConnectedToServerMessage message = new ConnectedToServerMessage();
+            ConnectedToServerMessage message = new ConnectedToServerMessage()
+            {
+                welcomeMessage = "Welcome to the server!"
+            };
             message.welcomeMessage = "Welcome to the login server!";
             ServerSend.SendTCPData(_id, message);
         }

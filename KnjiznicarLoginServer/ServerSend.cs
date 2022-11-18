@@ -1,5 +1,5 @@
-﻿using KnjiznicarLoginServer.Enum;
-using KnjiznicarLoginServer.Message;
+﻿using KnjiznicarDataModel.Enum;
+using KnjiznicarDataModel.Message;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using System;

@@ -1,10 +1,9 @@
 ﻿using KnjiznicarLoginServer.DB;
-using KnjiznicarLoginServer.Message;
+using KnjiznicarDataModel.Message;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Net;
+using KnjiznicarDataModel;
 
 namespace KnjiznicarLoginServer.MessageHandlers
 {
@@ -35,7 +34,11 @@ namespace KnjiznicarLoginServer.MessageHandlers
             else
             {
                 Console.WriteLine($"User {playerCredentials.username} doesnt exist, or wrong credentials.");
-                LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage(false, true);
+                LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
+                {
+                    loginSuccessful = false,
+                    isLogin = true,
+                };
                 ServerSend.SendTCPData(clientId, loginSuccessful);
             }
         }

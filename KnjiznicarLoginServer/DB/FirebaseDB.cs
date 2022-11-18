@@ -2,6 +2,7 @@
 using FireSharp.Response;
 using FireSharp.Interfaces;
 using System;
+using KnjiznicarDataModel;
 
 namespace KnjiznicarLoginServer.DB
 {
