@@ -1,6 +1,6 @@
-﻿using KnjiznicarInstanceServer.Enum;
+﻿using KnjiznicarLoginServer.Enum;
 
-namespace KnjiznicarInstanceServer.Message
+namespace KnjiznicarLoginServer.Message
 {
     class LoginMessage : BaseMessage
     {

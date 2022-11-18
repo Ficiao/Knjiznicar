@@ -1,7 +1,7 @@
-﻿using KnjiznicarInstanceServer.Enum;
+﻿using KnjiznicarLoginServer.Enum;
 using Newtonsoft.Json;
 
-namespace KnjiznicarInstanceServer.Message
+namespace KnjiznicarLoginServer.Message
 {
     class ConnectedToServerMessage : BaseMessage
     {

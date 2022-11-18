@@ -1,11 +1,11 @@
-﻿using KnjiznicarInstanceServer.MessageHandlers;
+﻿using KnjiznicarLoginServer.MessageHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KnjiznicarInstanceServer
+namespace KnjiznicarLoginServer
 {
     public abstract class Singleton<T> : Initializer where T : Singleton<T> 
     {
@@ -32,7 +32,7 @@ namespace KnjiznicarInstanceServer
     {
         private static List<Initializer> initializeQueue = new List<Initializer>
         {
-            new MessageHandler()
+            new OverworldServer()
         };
 
         public static void Initialize()

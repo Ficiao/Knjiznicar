@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32428.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnjiznicarInstanceServer", "KnjiznicarInstanceServer\KnjiznicarInstanceServer.csproj", "{F8D29584-88CF-4BD8-80CE-A9AB8964DAE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KnjiznicarLoginServer", "KnjiznicarLoginServer\KnjiznicarLoginServer.csproj", "{47429512-C290-4102-AA75-F11EA01CA442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F8D29584-88CF-4BD8-80CE-A9AB8964DAE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8D29584-88CF-4BD8-80CE-A9AB8964DAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8D29584-88CF-4BD8-80CE-A9AB8964DAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8D29584-88CF-4BD8-80CE-A9AB8964DAE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47429512-C290-4102-AA75-F11EA01CA442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47429512-C290-4102-AA75-F11EA01CA442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47429512-C290-4102-AA75-F11EA01CA442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47429512-C290-4102-AA75-F11EA01CA442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AC8F2341-2B5E-49DF-9E84-6A63CAFF3568}
+		SolutionGuid = {45FE6DD0-8093-44A9-9727-A2EBFBF4534B}
 	EndGlobalSection
 EndGlobal

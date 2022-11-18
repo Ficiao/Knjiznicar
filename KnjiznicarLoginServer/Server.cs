@@ -1,10 +1,10 @@
-﻿using KnjiznicarInstanceServer.Message;
+﻿using KnjiznicarLoginServer.Message;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
-namespace KnjiznicarInstanceServer
+namespace KnjiznicarLoginServer
 {
     class Server
     {
@@ -17,8 +17,6 @@ namespace KnjiznicarInstanceServer
 
         public static void Start(int maxPlayer, int port)
         {
-            GlobalInitializer.Initialize();
-
             MaxPlayers = maxPlayer;
             Port = port;
 
@@ -44,6 +42,7 @@ namespace KnjiznicarInstanceServer
                 if(Clients[i].Tcp.Socket == null)
                 {
                     Clients[i].Tcp.Connect(client);
+                    Console.WriteLine($"{client.Client.RemoteEndPoint} connected as id {i}.");
                     return;
                 }
             }
