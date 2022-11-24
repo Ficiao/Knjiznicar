@@ -56,6 +56,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
                 adventureLevel = 1,
                 pvpPoints = 0
             };
+            playerData.items.Add(new Item());
             FirebaseDB.SendDataToDB(playerData);
 
             PlayerConnectedMessage playerConnectedMessage = new PlayerConnectedMessage()

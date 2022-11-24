@@ -81,14 +81,10 @@ namespace KnjiznicarLoginServer
             }
         }
 
-        private void Reconnect()
+        public void Reconnect()
         {
-            Socket?.Close();
-            _stream = null;
-            _recieveBuffer = null;
-            Socket = null;
-
-            _reconnect?.Invoke();
+            System.Diagnostics.Process.Start("D:\\UnityProjects\\Knjiznicar\\KnjiznicarLoginServer\\KnjiznicarLoginServer\\bin\\Debug\\net5.0\\KnjiznicarLoginServer.exe");
+            Environment.Exit(0);
         }
     }
 }

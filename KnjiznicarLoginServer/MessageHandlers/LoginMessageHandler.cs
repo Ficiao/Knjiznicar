@@ -34,10 +34,10 @@ namespace KnjiznicarLoginServer.MessageHandlers
 
             if (dbCredentials != null ? dbCredentials.passwordHash == message.passwordHash : false)
             {
-                if(dbCredentials.playerName != null)
+                if (dbCredentials.playerName != null)
                 {
                     Server.Clients[clientId].Username = message.username;
-                    PlayerData playerData = FirebaseDB.GetDataFromDB(playerCredentials.playerName);
+                    PlayerData playerData = FirebaseDB.GetDataFromDB(dbCredentials.playerName);
                     PlayerConnectedMessage playerConnectedMessage = new PlayerConnectedMessage()
                     {
                         playerData = playerData,

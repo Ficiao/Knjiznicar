@@ -35,8 +35,15 @@ namespace KnjiznicarLoginServer
             Console.WriteLine($"Connected to overworld server.");
         }
 
+        public void Disconnect()
+        {
+            _tcp.Reconnect();
+        }
+
         private void Reconnect()
         {
+            Console.WriteLine("Reconnecting to overworld server...");
+            _tcpListener.Start();
             _tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallBack), null);
         }
     }
