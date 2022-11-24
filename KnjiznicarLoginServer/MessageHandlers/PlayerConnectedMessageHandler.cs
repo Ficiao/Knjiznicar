@@ -13,7 +13,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
             if (isServerMessage == false) return;
 
             PlayerConnectedMessage playerConnectedMessage = JsonConvert.DeserializeObject<PlayerConnectedMessage>(dataJsonObject.ToString());
-            if (!Server.Clients[playerConnectedMessage.playerData.playerId].Username.Equals(playerConnectedMessage.playerData.playerName)) return;
+            if (!Server.Clients[playerConnectedMessage.clientId].Username.Equals(playerConnectedMessage.username)) return;
 
             LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
             {
@@ -25,8 +25,8 @@ namespace KnjiznicarLoginServer.MessageHandlers
                 instanceIp = Constants.instanceIp,
                 instancePort = Constants.instancePort
             };
-            Console.WriteLine($"Login successful for user {playerConnectedMessage.playerData.playerName} as id {playerConnectedMessage.playerData.playerId}.");
-            ServerSend.SendTCPData(playerConnectedMessage.playerData.playerId, loginSuccessful);
+            Console.WriteLine($"Login successful for user {playerConnectedMessage.playerData.playerName} as id {clientId}.");
+            ServerSend.SendTCPData(clientId, loginSuccessful);
         }
     }
 }

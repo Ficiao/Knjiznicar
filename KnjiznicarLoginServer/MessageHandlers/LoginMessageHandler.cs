@@ -42,7 +42,8 @@ namespace KnjiznicarLoginServer.MessageHandlers
                     {
                         playerData = playerData,
                         playerIp = Server.Clients[clientId].Tcp.Socket.Client.RemoteEndPoint.ToString().Split(':')[0],
-                        username = playerCredentials.username
+                        username = playerCredentials.username,
+                        clientId = clientId,
                     };
                     ServerSend.SendTCPDataToOverworldServer<PlayerConnectedMessage>(playerConnectedMessage);
                 }

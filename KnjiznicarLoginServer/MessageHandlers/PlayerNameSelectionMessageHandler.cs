@@ -4,6 +4,7 @@ using KnjiznicarDataModel.Message;
 using KnjiznicarLoginServer.DB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,7 +51,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
             PlayerData playerData = new PlayerData()
             {
                 playerName = message.playerName,
-                playerId = clientId,
+                playerId = Guid.NewGuid().ToString(),
                 level = 1,
                 items = new List<Item>(),
                 adventureLevel = 1,
