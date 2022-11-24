@@ -27,13 +27,13 @@ namespace KnjiznicarLoginServer.DB
             {
                 Console.WriteLine(ex.Message);
             }
-        }       
-        
-        public static void SendDataToDB(PlayerData playerData)
+        }
+
+        public static void UpdateCredentialsOnDb(PlayerCredentials playerCredentials)
         {
             try
             {
-                SetResponse response = dbClient.Set("UserData/" + playerData.username, playerData);
+                FirebaseResponse response = dbClient.Update("UserCredentials/" + playerCredentials.username, playerCredentials);
                 Console.WriteLine(response.StatusCode);
             }
             catch (Exception ex)
@@ -56,7 +56,20 @@ namespace KnjiznicarLoginServer.DB
                 Console.WriteLine(ex.Message);
                 return null;
             }
-        } 
+        }
+
+        public static void SendDataToDB(PlayerData playerData)
+        {
+            try
+            {
+                SetResponse response = dbClient.Set("UserData/" + playerData.playerName, playerData);
+                Console.WriteLine(response.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
         
         public static PlayerData GetDataFromDB(string username)
         {
@@ -74,11 +87,11 @@ namespace KnjiznicarLoginServer.DB
             }
         }
 
-        public static void UpdateDataOnDb(PlayerCredentials playerData)
+        public static void UpdateDataOnDb(PlayerData playerData)
         {
             try
             {
-                FirebaseResponse response = dbClient.Update("UserData/" + playerData.username, playerData);
+                FirebaseResponse response = dbClient.Update("UserData/" + playerData.playerName, playerData);
                 Console.WriteLine(response.StatusCode);
             }
             catch (Exception ex)

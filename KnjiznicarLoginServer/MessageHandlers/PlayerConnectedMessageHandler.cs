@@ -8,10 +8,12 @@ namespace KnjiznicarLoginServer.MessageHandlers
 {
     class PlayerConnectedMessageHandler : BaseMessageHandler
     {
-        public override void HandleMessage(int clientId, JObject dataJsonObject)
+        public override void HandleMessage(string clientId, JObject dataJsonObject, bool isServerMessage)
         {
+            if (isServerMessage == false) return;
+
             PlayerConnectedMessage playerConnectedMessage = JsonConvert.DeserializeObject<PlayerConnectedMessage>(dataJsonObject.ToString());
-            if (!Server.Clients[playerConnectedMessage.playerData.playerId].Username.Equals(playerConnectedMessage.playerData.username)) return;
+            if (!Server.Clients[playerConnectedMessage.playerData.playerId].Username.Equals(playerConnectedMessage.playerData.playerName)) return;
 
             LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
             {
@@ -23,7 +25,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
                 instanceIp = Constants.instanceIp,
                 instancePort = Constants.instancePort
             };
-            Console.WriteLine($"Login successful for user {playerConnectedMessage.playerData.username} as id {playerConnectedMessage.playerData.playerId}.");
+            Console.WriteLine($"Login successful for user {playerConnectedMessage.playerData.playerName} as id {playerConnectedMessage.playerData.playerId}.");
             ServerSend.SendTCPData(playerConnectedMessage.playerData.playerId, loginSuccessful);
         }
     }

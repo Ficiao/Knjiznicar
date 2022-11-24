@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KnjiznicarLoginServer
 {
@@ -26,7 +22,7 @@ namespace KnjiznicarLoginServer
             _tcpListener.Start();
             Console.WriteLine("Connecting to overworld server...");
             _tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallBack), null);
-            _tcp = new ServerTCP(_dataBufferSize);
+            _tcp = new ServerTCP(_dataBufferSize, Reconnect);
         }
 
         private void TCPConnectCallBack(IAsyncResult ar)
@@ -37,6 +33,11 @@ namespace KnjiznicarLoginServer
             _callback();
 
             Console.WriteLine($"Connected to overworld server.");
+        }
+
+        private void Reconnect()
+        {
+            _tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallBack), null);
         }
     }
 }

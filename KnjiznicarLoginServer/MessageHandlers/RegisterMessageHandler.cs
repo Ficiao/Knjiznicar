@@ -5,12 +5,14 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using KnjiznicarDataModel;
+using System.Linq;
+using KnjiznicarDataModel.Enum;
 
 namespace KnjiznicarLoginServer.MessageHandlers
 {
     class RegisterMessageHandler : BaseMessageHandler
     {
-        public override void HandleMessage(int clientId, JObject dataJsonObject)
+        public override void HandleMessage(string clientId, JObject dataJsonObject, bool isServerMessage)
         {
             RegisterMessage message = JsonConvert.DeserializeObject<RegisterMessage>(dataJsonObject.ToString());
             PlayerCredentials playerCredentials = new PlayerCredentials()
@@ -19,44 +21,39 @@ namespace KnjiznicarLoginServer.MessageHandlers
                 passwordHash = message.passwordHash
             };
 
+            if(message.username.Count(c=> !char.IsLetterOrDigit(c)) > 0 || message.username.Length <= 0
+                || message.passwordHash.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.passwordHash.Length <= 0)
+            {
+                ErrorMessage errorMessage = new ErrorMessage()
+                {
+                    error = ErrorType.RegisterCredentialsInvalid
+                };
+                ServerSend.SendTCPData(clientId, errorMessage);
+            }
+
             PlayerCredentials dbCredentials = FirebaseDB.GetCredentialsFromDB(playerCredentials.username);
 
             if(dbCredentials == null)
             {
-                FirebaseDB.SendCredentialsToDB(playerCredentials);
-                PlayerData playerData = new PlayerData()
-                {
-                    username = playerCredentials.username,
-                    playerId = clientId,
-                    level = 1,
-                    items = new List<Item>(),
-                    adventureLevel = 1,
-                    pvpPoints = 0
-                };
-                FirebaseDB.SendDataToDB(playerData);
+                FirebaseDB.SendCredentialsToDB(playerCredentials);                
                 Console.WriteLine($"Register successful for user {playerCredentials.username}.");
-                LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
+                Server.Clients[clientId].Username = message.username;
+                LoginSuccessfulMessage loginMessage = new LoginSuccessfulMessage()
                 {
                     loginSuccessful = true,
                     isLogin = false,
-                    playerData = playerData,
-                    overworldIp = Constants.overworldIp,
-                    overworldPort = Constants.overworldPort,
-                    instanceIp = Constants.instanceIp,
-                    instancePort = Constants.instancePort
+                    username = message.username,
                 };
-                Server.Clients[clientId].Username = message.username;
-                ServerSend.SendTCPData(clientId, loginSuccessful);
+                ServerSend.SendTCPData(clientId, loginMessage);
             }
             else
             {
                 Console.WriteLine($"User {playerCredentials.username} already exists.");
-                LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
+                ErrorMessage errorMessage = new ErrorMessage()
                 {
-                    loginSuccessful = false,
-                    isLogin = false
+                    error = ErrorType.RegisterCredentialsInvalid
                 };
-                ServerSend.SendTCPData(clientId, loginSuccessful);
+                ServerSend.SendTCPData(clientId, errorMessage);
             }
         }
     }

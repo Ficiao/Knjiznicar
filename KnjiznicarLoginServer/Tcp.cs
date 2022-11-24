@@ -10,7 +10,7 @@ namespace KnjiznicarLoginServer
 {
     public class TCP
     {
-        private readonly int _id;
+        private readonly string _id;
         private NetworkStream _stream;
         private byte[] _recieveBuffer;
         private Client _client = null;
@@ -18,7 +18,7 @@ namespace KnjiznicarLoginServer
         public TcpClient Socket;
         public static int DataBufferSize = 4096;
 
-        public TCP(int id, int dataBufferSize, Client client)
+        public TCP(string id, int dataBufferSize, Client client)
         {
             DataBufferSize = dataBufferSize;
             _client = client;
@@ -69,7 +69,7 @@ namespace KnjiznicarLoginServer
                 using (BsonReader reader = new BsonReader(ms))
                 {
                     dataJsonObject = (JObject)JToken.ReadFrom(reader);
-                    MessageHandler.HandleMessage(_id, dataJsonObject);
+                    MessageHandlers.MessageHandlers.HandleMessage(_id, dataJsonObject, false);
                 }
             }
             catch (Exception ex)

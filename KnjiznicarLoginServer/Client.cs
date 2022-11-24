@@ -6,13 +6,11 @@ namespace KnjiznicarLoginServer
     public class Client
     {
         public static int DataBufferSize = 4096;
-        public int Id;
+        public string Id;
         public string Username;
         public TCP Tcp;
 
-
-
-        public Client(int id)
+        public Client(string id)
         {
             Id = id;
             Tcp = new TCP(id, DataBufferSize, this);
@@ -20,7 +18,7 @@ namespace KnjiznicarLoginServer
 
         public void Disconnect()
         {
-            if (Username == null) return;
+            if (Tcp.Socket == null) return;
 
             PlayerLoggedOutMessage playerLoggedOutMessage = new PlayerLoggedOutMessage()
             {

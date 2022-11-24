@@ -6,8 +6,10 @@ namespace KnjiznicarLoginServer.MessageHandlers
 {
     class LogoutMessageHandler : BaseMessageHandler
     {
-        public override void HandleMessage(int clientId, JObject dataJsonObject)
+        public override void HandleMessage(string clientId, JObject dataJsonObject, bool isServerMessage)
         {
+            if (isServerMessage == false) return;
+
             LogoutMessage message = JsonConvert.DeserializeObject<LogoutMessage>(dataJsonObject.ToString());
 
             if (message.responseNeeded)

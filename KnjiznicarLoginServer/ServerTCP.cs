@@ -16,9 +16,12 @@ namespace KnjiznicarLoginServer
         public TcpClient Socket;
         public static int DataBufferSize = 4096;
 
-        public ServerTCP(int dataBufferSize)
+        private Action _reconnect;
+
+        public ServerTCP(int dataBufferSize, Action reconnect)
         {
             DataBufferSize = dataBufferSize;
+            _reconnect = reconnect;
         }
 
         public void Connect(TcpClient socket)
@@ -37,10 +40,6 @@ namespace KnjiznicarLoginServer
         {
             try
             {
-                if (_stream == null)
-                {
-                    return;
-                }
                 int byteLength = _stream.EndRead(ar);
                 if (byteLength <= 0)
                 {
@@ -56,11 +55,13 @@ namespace KnjiznicarLoginServer
                 using (BsonReader reader = new BsonReader(ms))
                 {
                     dataJsonObject = (JObject)JToken.ReadFrom(reader);
-                    MessageHandler.HandleMessage(-1, dataJsonObject);
+                    MessageHandlers.MessageHandlers.HandleMessage("", dataJsonObject, true);
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error recieving data from server: {ex}");
+                Reconnect();
             }
         }
 
@@ -75,15 +76,19 @@ namespace KnjiznicarLoginServer
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error sending data to server: {ex}");
+                Reconnect();
             }
         }
 
-        public void Disconnect()
+        private void Reconnect()
         {
             Socket?.Close();
             _stream = null;
             _recieveBuffer = null;
             Socket = null;
+
+            _reconnect?.Invoke();
         }
     }
 }
