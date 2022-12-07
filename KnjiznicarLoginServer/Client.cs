@@ -18,19 +18,8 @@ namespace KnjiznicarLoginServer
 
         public void Disconnect()
         {
-            if (Tcp.Socket == null) return;
-
-            PlayerLoggedOutMessage playerLoggedOutMessage = new PlayerLoggedOutMessage()
-            {
-                id = Id,
-                ip = Tcp.Socket.Client.RemoteEndPoint.ToString().Split(':')[0]
-            };
-            ServerSend.SendTCPDataToOverworldServer(playerLoggedOutMessage);
-
-            Console.WriteLine($"{Username} from {Tcp.Socket.Client.RemoteEndPoint} with id {Id} has disconnected.");
-            Username = null;
-
             Tcp.Disconnect();
+            Server.Clients.Remove(Id);
         }
     }
 }

@@ -71,11 +71,11 @@ namespace KnjiznicarLoginServer.DB
             }
         }
         
-        public static PlayerData GetDataFromDB(string username)
+        public static PlayerData GetDataFromDB(string playerName)
         {
             try
             {
-                FirebaseResponse response = dbClient.Get("UserData/" + username);
+                FirebaseResponse response = dbClient.Get("UserData/" + playerName);
                 PlayerData data = response.ResultAs<PlayerData>();
                 Console.WriteLine(response.StatusCode);
                 return data;

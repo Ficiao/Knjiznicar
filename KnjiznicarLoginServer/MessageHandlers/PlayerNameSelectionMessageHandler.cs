@@ -17,34 +17,17 @@ namespace KnjiznicarLoginServer.MessageHandlers
             PlayerNameSelectionMessage message = JsonConvert.DeserializeObject<PlayerNameSelectionMessage>(dataJsonObject.ToString());
             string username = Server.Clients[clientId].Username;
 
-            if (username == null)
-            {
-                ErrorMessage errorMessage = new ErrorMessage()
-                {
-                    error = ErrorType.PlayerNameInvalid
-                };
-                ServerSend.SendTCPData(clientId, errorMessage);
-            }
-
-            if (message.playerName.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.playerName.Length <= 0
-                || message.playerName.Contains(username))
-            {
-                ErrorMessage errorMessage = new ErrorMessage()
-                {
-                    error = ErrorType.PlayerNameInvalid
-                };
-                ServerSend.SendTCPData(clientId, errorMessage);
-            }
-
+            bool clientNotLoggedIn = username == null;
+            bool playerNameNotValid = message.playerName.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.playerName.Length <= 0
+                || message.playerName.Contains(username);
             PlayerCredentials playerCredentials = FirebaseDB.GetCredentialsFromDB(username);
-            if (playerCredentials.username != null)
+            bool playerNameAlreadyExists = playerCredentials.playerName != null;
+
+            if (clientNotLoggedIn || playerNameNotValid || playerNameAlreadyExists)
             {
-                ErrorMessage errorMessage = new ErrorMessage()
-                {
-                    error = ErrorType.PlayerNameInvalid
-                };
-                ServerSend.SendTCPData(clientId, errorMessage);
-            }
+                SendErrorMessage(clientId);
+                return;
+            }            
 
             playerCredentials.playerName = message.playerName;
             FirebaseDB.UpdateCredentialsOnDb(playerCredentials);
@@ -64,9 +47,19 @@ namespace KnjiznicarLoginServer.MessageHandlers
             {
                 playerData = playerData,
                 playerIp = Server.Clients[clientId].Tcp.Socket.Client.RemoteEndPoint.ToString().Split(':')[0],
-                username = playerCredentials.username
+                username = playerCredentials.username,
+                clientId = clientId
             };
             ServerSend.SendTCPDataToOverworldServer<PlayerConnectedMessage>(playerConnectedMessage);
+        }
+
+        private void SendErrorMessage(string clientId)
+        {
+            ErrorMessage errorMessage = new ErrorMessage()
+            {
+                error = ErrorType.PlayerNameInvalid
+            };
+            ServerSend.SendTCPData(clientId, errorMessage);
         }
     }
 }

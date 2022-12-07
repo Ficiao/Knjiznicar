@@ -32,8 +32,18 @@ namespace KnjiznicarLoginServer.MessageHandlers
 
             PlayerCredentials dbCredentials = FirebaseDB.GetCredentialsFromDB(playerCredentials.username);
 
-            if (dbCredentials != null ? dbCredentials.passwordHash == message.passwordHash : false)
+            if (dbCredentials != null && dbCredentials.passwordHash == message.passwordHash)
             {
+                Client existingClient = Server.Clients.FirstOrDefault(c => c.Value.Username == message.username).Value;
+                if(existingClient != null)
+                {
+                    ServerSend.SendTCPDataToOverworldServer(new PlayerLoggedOutMessage()
+                    {
+                        id = existingClient.Id,
+                    });
+                    existingClient.Disconnect();
+                }
+
                 if (dbCredentials.playerName != null)
                 {
                     Server.Clients[clientId].Username = message.username;
