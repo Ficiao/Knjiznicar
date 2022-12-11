@@ -1,26 +1,26 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
 
-namespace KnjiznicarInstanceServer
+namespace KnjiznicarLoginServer
 {
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        private static bool isRunning = false;
+
+        static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            Console.Title = "ServerConsole";
+            isRunning = true;
+
+            GlobalInitializer.Initialize();
+            OverworldServer.Instance.Connect(26953, ServerStart);
+
+            Console.ReadKey();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        public static void ServerStart()
+        {
+            Server.Start(50, 26950);
+        }
     }
 }
