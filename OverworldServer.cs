@@ -18,7 +18,7 @@ namespace KnjiznicarLoginServer
         {
             _port = port;
             _callback = connectCallback;
-            _tcpListener = new TcpListener(IPAddress.Loopback, port);
+            _tcpListener = new TcpListener(IPAddress.Any, port);
             _tcpListener.Start();
             Console.WriteLine("Connecting to overworld server...");
             _tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallBack), null);

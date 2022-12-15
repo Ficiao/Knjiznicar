@@ -15,6 +15,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
             { MessageType.PlayerConnected, new PlayerConnectedMessageHandler() },
             { MessageType.PlayerNameSelection, new PlayerNameSelectionHandler() },
             { MessageType.Error, new ErrorMessageHandler() },
+            { MessageType.PlayerLoggedOut, new PlayerLoggedOutMessageHandler() },
         };
 
         public static void HandleMessage(string clientId, JObject dataJsonObject, bool isServerMessage)

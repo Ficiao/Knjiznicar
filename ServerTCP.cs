@@ -83,7 +83,7 @@ namespace KnjiznicarLoginServer
 
         public void Reconnect()
         {
-            System.Diagnostics.Process.Start("D:\\UnityProjects\\Knjiznicar\\KnjiznicarLoginServer\\KnjiznicarLoginServer\\bin\\Debug\\net5.0\\KnjiznicarLoginServer.exe");
+            //System.Diagnostics.Process.Start("D:\\UnityProjects\\Knjiznicar\\KnjiznicarLoginServer\\KnjiznicarLoginServer\\bin\\Debug\\net5.0\\KnjiznicarLoginServer.exe");
             Environment.Exit(0);
         }
     }

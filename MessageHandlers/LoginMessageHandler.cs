@@ -35,12 +35,13 @@ namespace KnjiznicarLoginServer.MessageHandlers
             if (dbCredentials != null && dbCredentials.passwordHash == message.passwordHash)
             {
                 Client existingClient = Server.Clients.FirstOrDefault(c => c.Value.Username == message.username).Value;
-                if(existingClient != null)
+                if (existingClient != null)
                 {
                     ServerSend.SendTCPDataToOverworldServer(new PlayerLoggedOutMessage()
                     {
                         id = existingClient.Id,
                     });
+                    existingClient.ShouldKeep = false;
                     existingClient.Disconnect();
                 }
 

@@ -26,6 +26,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
                 instancePort = Constants.instancePort
             };
             Console.WriteLine($"Login successful for user {playerConnectedMessage.playerData.playerName} as id {clientId}.");
+            Server.Clients[playerConnectedMessage.clientId].ShouldKeep = true;
             ServerSend.SendTCPData(playerConnectedMessage.clientId, loginSuccessful);
         }
     }

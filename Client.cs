@@ -9,6 +9,7 @@ namespace KnjiznicarLoginServer
         public string Id;
         public string Username;
         public TCP Tcp;
+        public bool ShouldKeep;
 
         public Client(string id)
         {
@@ -19,7 +20,7 @@ namespace KnjiznicarLoginServer
         public void Disconnect()
         {
             Tcp.Disconnect();
-            Server.Clients.Remove(Id);
+            if(ShouldKeep == false) Server.Clients.Remove(Id);
         }
     }
 }
