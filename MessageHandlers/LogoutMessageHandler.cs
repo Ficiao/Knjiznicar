@@ -12,7 +12,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
 
             LogoutMessage message = JsonConvert.DeserializeObject<LogoutMessage>(dataJsonObject.ToString());
 
-            if (message.responseNeeded)
+            if (message.ResponseNeeded)
             {
                 ServerSend.SendTCPData(clientId, new LogoutMessage(false));
             }

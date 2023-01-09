@@ -16,30 +16,30 @@ namespace KnjiznicarLoginServer.MessageHandlers
             LoginMessage message = JsonConvert.DeserializeObject<LoginMessage>(dataJsonObject.ToString());
             PlayerCredentials playerCredentials = new PlayerCredentials()
             {
-                username = message.username,
-                passwordHash = message.passwordHash
+                username = message.Username,
+                passwordHash = message.PasswordHash
             };
 
-            if (message.username.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.username.Length <= 0
-                || message.passwordHash.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.passwordHash.Length <= 0)
+            if (message.Username.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.Username.Length <= 0
+                || message.PasswordHash.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.PasswordHash.Length <= 0)
             {
                 ErrorMessage errorMessage = new ErrorMessage()
                 {
-                    error = ErrorType.PlayerCredentialsInvalid
+                    Error = ErrorType.PlayerCredentialsInvalid
                 };
                 ServerSend.SendTCPData(clientId, errorMessage);
             }
 
             PlayerCredentials dbCredentials = FirebaseDB.GetCredentialsFromDB(playerCredentials.username);
 
-            if (dbCredentials != null && dbCredentials.passwordHash == message.passwordHash)
+            if (dbCredentials != null && dbCredentials.passwordHash == message.PasswordHash)
             {
-                Client existingClient = Server.Clients.FirstOrDefault(c => c.Value.Username == message.username).Value;
+                Client existingClient = Server.Clients.FirstOrDefault(c => c.Value.Username == message.Username).Value;
                 if (existingClient != null)
                 {
                     ServerSend.SendTCPDataToOverworldServer(new PlayerLoggedOutMessage()
                     {
-                        id = existingClient.Id,
+                        Id = existingClient.Id,
                     });
                     existingClient.ShouldKeep = false;
                     existingClient.Disconnect();
@@ -47,25 +47,24 @@ namespace KnjiznicarLoginServer.MessageHandlers
 
                 if (dbCredentials.playerName != null)
                 {
-                    Server.Clients[clientId].Username = message.username;
-                    PlayerData playerData = FirebaseDB.GetDataFromDB(dbCredentials.playerName);
+                    Server.Clients[clientId].Username = message.Username;
                     PlayerConnectedMessage playerConnectedMessage = new PlayerConnectedMessage()
                     {
-                        playerData = playerData,
-                        playerIp = Server.Clients[clientId].Tcp.Socket.Client.RemoteEndPoint.ToString().Split(':')[0],
-                        username = playerCredentials.username,
-                        clientId = clientId,
+                        PlayerIp = Server.Clients[clientId].Tcp.Socket.Client.RemoteEndPoint.ToString().Split(':')[0],
+                        Username = playerCredentials.username,
+                        PlayerName = dbCredentials.playerName,
+                        ClientId = clientId,
                     };
                     ServerSend.SendTCPDataToOverworldServer<PlayerConnectedMessage>(playerConnectedMessage);
                 }
                 else
                 {
-                    Server.Clients[clientId].Username = message.username;
+                    Server.Clients[clientId].Username = message.Username;
                     LoginSuccessfulMessage loginMessage = new LoginSuccessfulMessage()
                     {
-                        loginSuccessful = true,
-                        isLogin = false,
-                        username = message.username,
+                        LoginSuccessful = true,
+                        IsLogin = false,
+                        Username = message.Username,
                     };
                     ServerSend.SendTCPData(clientId, loginMessage);
                 }
@@ -75,7 +74,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
                 Console.WriteLine($"User {playerCredentials.username} doesnt exist, or wrong credentials.");
                 ErrorMessage errorMessage = new ErrorMessage()
                 {
-                    error = ErrorType.PlayerCredentialsInvalid
+                    Error = ErrorType.PlayerCredentialsInvalid
                 };
                 ServerSend.SendTCPData(clientId, errorMessage);
             }

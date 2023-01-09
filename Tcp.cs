@@ -38,10 +38,10 @@ namespace KnjiznicarLoginServer
             _stream.BeginRead(_recieveBuffer, 0, DataBufferSize, RecieveDataCallback, null);
             ConnectedToServerMessage message = new ConnectedToServerMessage()
             {
-                welcomeMessage = "Welcome to the server!",
-                serverType = ServerType.Login
+                WelcomeMessage = "Welcome to the server!",
+                ServerType = ServerType.Login
             };
-            message.welcomeMessage = "Welcome to the login server!";
+            message.WelcomeMessage = "Welcome to the login server!";
             ServerSend.SendTCPData(_id, message);
         }
 

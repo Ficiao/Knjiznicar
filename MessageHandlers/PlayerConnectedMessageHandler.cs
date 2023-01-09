@@ -13,21 +13,21 @@ namespace KnjiznicarLoginServer.MessageHandlers
             if (isServerMessage == false) return;
 
             PlayerConnectedMessage playerConnectedMessage = JsonConvert.DeserializeObject<PlayerConnectedMessage>(dataJsonObject.ToString());
-            if (!Server.Clients[playerConnectedMessage.clientId].Username.Equals(playerConnectedMessage.username)) return;
+            if (!Server.Clients[playerConnectedMessage.ClientId].Username.Equals(playerConnectedMessage.Username)) return;
 
             LoginSuccessfulMessage loginSuccessful = new LoginSuccessfulMessage()
             {
-                loginSuccessful = true,
-                isLogin = true,
-                playerData = playerConnectedMessage.playerData,
-                overworldIp = Constants.overworldIp,
-                overworldPort = Constants.overworldPort,
-                instanceIp = Constants.instanceIp,
-                instancePort = Constants.instancePort
+                LoginSuccessful = true,
+                IsLogin = true,
+                PlayerData = playerConnectedMessage.PlayerData,
+                OverworldIp = Constants.overworldIp,
+                OverworldPort = Constants.overworldPort,
+                InstanceIp = Constants.instanceIp,
+                InstancePort = Constants.instancePort
             };
-            Console.WriteLine($"Login successful for user {playerConnectedMessage.playerData.playerName} as id {clientId}.");
-            Server.Clients[playerConnectedMessage.clientId].ShouldKeep = true;
-            ServerSend.SendTCPData(playerConnectedMessage.clientId, loginSuccessful);
+            Console.WriteLine($"Login successful for user {playerConnectedMessage.PlayerData.PlayerName} as id {clientId}.");
+            Server.Clients[playerConnectedMessage.ClientId].ShouldKeep = true;
+            ServerSend.SendTCPData(playerConnectedMessage.ClientId, loginSuccessful);
         }
     }
 }

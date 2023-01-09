@@ -56,55 +56,26 @@ namespace KnjiznicarLoginServer.DB
                 Console.WriteLine(ex.Message);
                 return null;
             }
-        }
-
-        public static void SendDataToDB(PlayerData playerData)
-        {
-            try
-            {
-                SetResponse response = dbClient.Set("UserData/" + playerData.playerName, playerData);
-                Console.WriteLine(response.StatusCode);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        
-        public static PlayerData GetDataFromDB(string playerName)
-        {
-            try
-            {
-                FirebaseResponse response = dbClient.Get("UserData/" + playerName);
-                PlayerData data = response.ResultAs<PlayerData>();
-                Console.WriteLine(response.StatusCode);
-                return data;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
-        }
-
-        public static void UpdateDataOnDb(PlayerData playerData)
-        {
-            try
-            {
-                FirebaseResponse response = dbClient.Update("UserData/" + playerData.playerName, playerData);
-                Console.WriteLine(response.StatusCode);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+        }        
 
         public static void DeleteData(PlayerCredentials playerData)
         {
             try
             {
                 FirebaseResponse response = dbClient.Delete("UserData/" + playerData.username);
+                Console.WriteLine(response.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void SendDataToDB(PlayerData playerData)
+        {
+            try
+            {
+                SetResponse response = dbClient.Set("UserData/" + playerData.PlayerName, playerData);
                 Console.WriteLine(response.StatusCode);
             }
             catch (Exception ex)

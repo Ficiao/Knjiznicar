@@ -17,16 +17,16 @@ namespace KnjiznicarLoginServer.MessageHandlers
             RegisterMessage message = JsonConvert.DeserializeObject<RegisterMessage>(dataJsonObject.ToString());
             PlayerCredentials playerCredentials = new PlayerCredentials()
             {
-                username = message.username,
-                passwordHash = message.passwordHash
+                username = message.Username,
+                passwordHash = message.PasswordHash
             };
 
-            if(message.username.Count(c=> !char.IsLetterOrDigit(c)) > 0 || message.username.Length <= 0
-                || message.passwordHash.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.passwordHash.Length <= 0)
+            if(message.Username.Count(c=> !char.IsLetterOrDigit(c)) > 0 || message.Username.Length <= 0
+                || message.PasswordHash.Count(c => !char.IsLetterOrDigit(c)) > 0 || message.PasswordHash.Length <= 0)
             {
                 ErrorMessage errorMessage = new ErrorMessage()
                 {
-                    error = ErrorType.RegisterCredentialsInvalid
+                    Error = ErrorType.RegisterCredentialsInvalid
                 };
                 ServerSend.SendTCPData(clientId, errorMessage);
             }
@@ -37,12 +37,12 @@ namespace KnjiznicarLoginServer.MessageHandlers
             {
                 FirebaseDB.SendCredentialsToDB(playerCredentials);                
                 Console.WriteLine($"Register successful for user {playerCredentials.username}.");
-                Server.Clients[clientId].Username = message.username;
+                Server.Clients[clientId].Username = message.Username;
                 LoginSuccessfulMessage loginMessage = new LoginSuccessfulMessage()
                 {
-                    loginSuccessful = true,
-                    isLogin = false,
-                    username = message.username,
+                    LoginSuccessful = true,
+                    IsLogin = false,
+                    Username = message.Username,
                 };
                 ServerSend.SendTCPData(clientId, loginMessage);
             }
@@ -51,7 +51,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
                 Console.WriteLine($"User {playerCredentials.username} already exists.");
                 ErrorMessage errorMessage = new ErrorMessage()
                 {
-                    error = ErrorType.RegisterCredentialsInvalid
+                    Error = ErrorType.RegisterCredentialsInvalid
                 };
                 ServerSend.SendTCPData(clientId, errorMessage);
             }

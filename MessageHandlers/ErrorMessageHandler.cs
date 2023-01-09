@@ -11,7 +11,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
         {
             ErrorMessage message = JsonConvert.DeserializeObject<ErrorMessage>(dataJsonObject.ToString());
 
-            if (message.error == ErrorType.OverworldShutDown)
+            if (message.Error == ErrorType.OverworldShutDown)
             {
                 OverworldServer.Instance.Disconnect();
             }

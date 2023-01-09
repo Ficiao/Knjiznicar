@@ -13,10 +13,10 @@ namespace KnjiznicarLoginServer.MessageHandlers
             if (isServerMessage == false) return;
 
             PlayerLoggedOutMessage message = JsonConvert.DeserializeObject<PlayerLoggedOutMessage>(dataJsonObject.ToString());
-            if (Server.Clients.ContainsKey(message.id))
+            if (Server.Clients.ContainsKey(message.Id))
             {
-                Server.Clients[message.id].ShouldKeep = false;
-                Server.Clients[message.id].Disconnect();
+                Server.Clients[message.Id].ShouldKeep = false;
+                Server.Clients[message.Id].Disconnect();
             }
         }
     }

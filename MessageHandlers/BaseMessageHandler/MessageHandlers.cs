@@ -22,7 +22,7 @@ namespace KnjiznicarLoginServer.MessageHandlers
         {
             try
             {
-                MessageType messageType = (MessageType)Int32.Parse(dataJsonObject["messageType"].ToString());
+                MessageType messageType = (MessageType)Int32.Parse(dataJsonObject["MessageType"].ToString());
                 _messageHandlers[messageType].HandleMessage(clientId, dataJsonObject, isServerMessage);
             }
             catch(Exception ex)
