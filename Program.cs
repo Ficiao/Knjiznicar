@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace KnjiznicarLoginServer
@@ -38,10 +37,7 @@ namespace KnjiznicarLoginServer
 
             while (isNotCancelled)
             {
-                //Polling time here
-                await Task.Delay(100000);
-
-                //TODO: Do work here and listen for cancel
+                await Task.Delay(1000000);
                 Console.WriteLine("I did  some work...");
             }
         }
