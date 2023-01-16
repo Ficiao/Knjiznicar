@@ -11,6 +11,8 @@ namespace KnjiznicarLoginServer
     {
         public static void SendTCPData<T>(string toClient, T message) where T : BaseMessage
         {
+            if (!Server.Clients.ContainsKey(toClient)) return;
+
             MemoryStream ms = new MemoryStream();
             using (BsonWriter writer = new BsonWriter(ms))
             {
