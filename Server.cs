@@ -32,26 +32,33 @@ namespace KnjiznicarLoginServer
 
         private static void TCPConnectCallBack(IAsyncResult ar)
         {
-            TcpClient client = tcpListener.EndAcceptTcpClient(ar);
-            tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallBack), null);
-
-            Console.WriteLine($"Incoming connection request from {client.Client.RemoteEndPoint}...");
-
-            if(Clients.Count < MaxPlayers)
+            try
             {
-                string id = Guid.NewGuid().ToString();
-                while (Clients.ContainsKey(id))
+                TcpClient client = tcpListener.EndAcceptTcpClient(ar);
+                tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallBack), null);
+
+                Console.WriteLine($"Incoming connection request from {client.Client.RemoteEndPoint}...");
+
+                if (Clients.Count < MaxPlayers)
                 {
-                    id = Guid.NewGuid().ToString();
+                    string id = Guid.NewGuid().ToString();
+                    while (Clients.ContainsKey(id))
+                    {
+                        id = Guid.NewGuid().ToString();
+                    }
+                    Console.WriteLine($"{client.Client.RemoteEndPoint} connected as id {id}.");
+                    Clients.Add(id, new Client(id));
+                    Clients[id].Tcp.Connect(client);
                 }
-                Clients.Add(id, new Client(id));
-                Clients[id].Tcp.Connect(client);
-                Console.WriteLine($"{client.Client.RemoteEndPoint} connected as id {id}.");
+                else
+                {
+                    Console.WriteLine($"{client.Client.RemoteEndPoint} failed to connect: Server is full.");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Console.WriteLine($"{client.Client.RemoteEndPoint} failed to connect: Server is full.");
-            }           
+                Console.WriteLine($"Error creating tcp connection {ex}");
+            }
         }
     }
 }

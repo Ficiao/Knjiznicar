@@ -10,8 +10,8 @@ namespace KnjiznicarLoginServer.DB
     {
         private static IFirebaseConfig fcon = new FirebaseConfig()
         {
-            AuthSecret = "vXk5SwN84dxYGHW5GsuJhW7TGreEEFDuLSD4AFXG",
-            BasePath = "https://knjiznicardb-default-rtdb.europe-west1.firebasedatabase.app/"
+            AuthSecret = Constants.DBAuthSecret,
+            BasePath = Constants.DBBasePath,
         };
 
         private static IFirebaseClient dbClient = new FireSharp.FirebaseClient(fcon);
